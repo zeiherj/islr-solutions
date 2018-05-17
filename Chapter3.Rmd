@@ -1,0 +1,576 @@
+---
+title: "Chapter 3 Exercises"
+subtitle: "From *ISLR*"
+author: "Jacob Zeiher"
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Conceptual 
+
+## Problem 1
+The $p$ values given in Table 3.4 refer to the highest level of confidence with which we can reject the null hypothesis that $\beta_i = 0, i=0,1,2,3$ where $\beta_i$ is the coefficient on intercept, TV, radio, and newspaper, respectively. From these p-values, we can conclude that intercept, TV, and radio all have a significant relationship with the outcome variables, holding the other variables constant. Since the coefficient on newspaper has a p-value of $0.8599$ there is not a significant relationship between newspaper and the outcome variable. 
+
+## Problem 2
+The KNN classifier is a classification method while the KNN regression is a regression method. The KNN classifier makes a classification based on the classification of the K closest data points. Similarly, the KNN regression assigns a predicted value based on the average value of the K nearest data points. Hence, the outcome variable for the KNN classifier is categorical while the outcome variable for the KNN regression is quantitative. 
+
+## Problem 3
+
+### Part a
+We have $$\hat{Y} = \hat{\beta_0} + \hat{\beta_1}GPA + \hat{\beta_2}IQ + \hat{\beta_3}FEMALE + \hat{\beta_4}\left(GPA \times IQ\right) + \hat{\beta_5}\left(GPA \times FEMALE\right).$$ For males this equation becomes $$\hat{Y} = \hat{\beta_0} + \hat{\beta_1}GPA + \hat{\beta_2}IQ + \hat{\beta_4}\left(GPA \times IQ\right) = 50+20GPA+0.07IQ+0.01\left(GPA \times IQ\right),$$ 
+and for females it becomes $$\hat{Y} = \left(\hat{\beta_0}+\hat{\beta_3}\right) + \left(\hat{\beta_1}+\hat{\beta_5}\right)GPA + \hat{\beta_2}IQ + \hat{\beta_4}\left(GPA \times IQ\right)=85+10GPA++0.07IQ+0.01\left(GPA \times IQ\right).$$ Hence, option ii is correct: *For a fixed value of IQ and GPA, males earn more on average than females provided that the GPA is high enough.*
+
+### Part b
+Using the previous equation, we would have $$\hat{Y}=85+10(4)+0.07(110)+0.01(110\times4)=131.7$$
+
+### Part c
+False. To determine statistical significance, we need to compare $t = \frac{\hat{\beta}}{se\hat{\beta}}$ to a t-distribution with $n-2$ degrees of freedom. We cannot determine statistical significance based solely on the *magnitude* of the coefficient. We must also take into consideration its estimated standard error.
+
+## Problem 4
+
+### Part a
+Without knowing more details about the training data, it is difficult to know which training RSS is lower between linear or cubic. However, as the true relationship between X and Y is linear, we may expect the least squares line to be close to the true regression line, and consequently the RSS for the linear regression may be lower than for the cubic regression.
+Moreover, the training RSS for the cubic regression will be lower than the linear regression because adding additional regressors has to decrease training RSS. 
+
+### Part b
+If the additional predictors lead to overfitting, the testing RSS could be worse (higher) for the cubic regression fit 
+
+### Part c
+The cubic regression fit should produce a better RSS on the training set because it can adjust for the non-linearity.
+
+### Part d
+Similar to training RSS, the cubic regression fit should produce a better RSS on the testing set because it can adjust for the non-linearity.
+
+## Problem 5
+We have $$\hat{y}_i=x_i\frac{\sum_{j=1}^nx_jy_j}{\sum_{k=1}^nx_k^2}=\sum_{j=1}^n\frac{x_jy_jx_i}{\sum_{k=1}^nx_k^2}=\sum_{j=1}^n\frac{x_jx_i}{\sum_{k=1}^nx_k^2}y_j,$$ so $$a_j=\frac{x_ix_j}{\sum_{k=1}^nx_k^2}.$$
+
+## Problem 6
+Note that $\bar{y}=\frac{1}{n}\sum y_i=\frac{1}{n}\sum (\hat{y}_i+\hat{\epsilon}_i)$. The estimates of $\hat{y}_i$ are given by $$\hat{y}_i = \hat{\beta_0} + \hat{\beta_1}x_{i} + \hat{\epsilon}_i.$$ Multiplying both sides by $\frac{1}{n}$ and summing from $i=1,\ldots,n$, we get $$\frac{1}{n}\hat{y}_i = \bar{y} = \frac{1}{n} \sum (\hat{\beta_0} + \hat{\beta_1}x_{i} + \hat{\epsilon}_i) = \hat{\beta_0} + \hat{\beta_1}\bar{x},$$ where the $\hat{\epsilon}_i$ sum to $0$. Hence, $\bar{y}=\hat{\beta_0} + \hat{\beta_1}\bar{x},$ so the regression equation passes through $(\bar{x},\bar{y})$.
+
+## Problem 7
+First, show that in simple linear regression, \begin{equation}\sum_{i=1}^n(y_i - \bar{y})^2 = \sum_{i=1}^n(y_i-\hat{y}_i)^2 + \sum_{i=1}^n(\hat{y}_i - \bar{y})^2.\end{equation} Obviously, $$(y_i - \bar{y}) = (y_i + \hat{y}_i) + (\hat{y}_i - \bar{y}).$$ Summing the square of both sides over all observations, $$\sum_{i=1}^n(y_i - \bar{y})^2 = \sum_{i=1}^n(y_i-\hat{y}_i)^2 + \sum_{i=1}^n(\hat{y}_i - \bar{y})^2 + \sum_{i=1}^n2(y_i-\hat{y}_i)(\hat{y}_i - \bar{y}).$$ Need to show $$\sum_{i=1}^n2(y_i-\hat{y}_i)(\hat{y}_i - \bar{y})=0.$$ In simple linear regression, $$\hat{y}_i = \hat{\alpha} + \hat{\beta}x_i,$$ $$\bar{y} = \hat{\alpha} + \hat{\beta}\bar{x},$$ and $$\hat{\beta} = \frac{\sum_{i=1}^n(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2}.$$ Then $$\hat{y}_i - \bar{y} = (\hat{\alpha} + \hat{\beta}x_i) - (\hat{\alpha}+\hat{\beta}\bar{x}) = \hat{\beta}(x_i - \bar{x}),$$ and $$y_i - \hat{y}_i = (y_i - \bar{y}) - (\hat{y}_i - \bar{y}) = (y_i - \bar{y}) - \hat{\beta}(x_i-\bar{x}).$$ Then we have   \begin{align*} 
+    \sum_{i=1}^n2(\hat{y}_i - \bar{y})(y_i - \hat{y}_i) &= 2\hat{\beta}\sum_{i=1}^n(x_i-\bar{x})(y_i-\hat{y}_i)\\
+    &= 2\hat{\beta}\sum_{i=1}^n(x_i-\bar{x})[(y_i - \bar{y}) - \hat{\beta}(x_i-\bar{x})]\\
+    &= 2\hat{\beta}\left[\sum_{i=1}^n(x_i-\bar{x})(y_i - \bar{y}) - \sum_{i=1}^n\hat{\beta}(x_i-\bar{x})^2\right]\\
+    &= 2\hat{\beta}\left[\sum_{i=1}^n(x_i-\bar{x})(y_i - \bar{y}) - \sum_{i=1}^n\left[(x_i-\bar{x})^2\sum_{j=1}^n\frac{(x_j - \bar{x})(y_j-\bar{y})}{(x_j - \bar{x})^2}\right] \right]\\
+    &= 2\hat{\beta}\left[\sum_{i=1}^n(x_i-\bar{x})(y_i - \bar{y}) - \sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y}) \right]\\
+    &= 2\hat{\beta}(0) = 0.
+  \end{align*}
+Hence, (1) holds in simple linear regression. 
+
+Now need to show that \begin{equation}R^2=\mathrm{Cov}^2(X,Y).\end{equation} By (1) we have that 
+  \begin{align}
+    R^2 &= \frac{TSS-RSS}{TSS}\\
+    &= \frac{\sum_{i=1}^n(y_i - \bar{y})^2 - \sum_{i=1}^n(y_i-\hat{y}_i)^2}{\sum_{i=1}^n(y_i - \bar{y})^2}\\
+    &= \frac{\sum_{i=1}^n(\hat{y}_i - \bar{y})^2}{\sum_{i=1}^n(y_i - \bar{y})^2}.
+  \end{align}
+Since $\bar{y} = \hat{\alpha}+\hat{\beta}\bar{x}$, we have $\hat{\alpha} = \bar{y} - \hat{\beta}\bar{x}$. Then 
+  \begin{align*}
+    \sum_{i=1}^n(\hat{y}_i-\bar{y})^2 &= \sum_{i=1}^n(\hat{\alpha}+\hat{\beta}x_i - \bar{y})^2\\
+    &= \sum_{i=1}^n(\bar{y}-\hat{\beta}\bar{x}+\hat{\beta}x_i - \bar{y})^2\\
+    &= \sum_{i=1}^n(\hat{\beta}(x_i - \bar{x})^2\\
+    &= \hat{\beta}^2 \sum_{i=1}^n(x_i - \bar{x})^2\\
+    &= \frac{\left[\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})\right]^2 \sum_{i=1}^n(x_i-\bar{x})^2}{\left[\sum_{i=1}^n(x_i-\bar{x})^2\right]^2}\\
+    &= \frac{\left[\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})\right]^2}{\sum_{i=1}^n(x_i-\bar{x})^2}.
+  \end{align*}
+Then (5) becomes
+  \begin{align*}
+    R^2 &= \frac{\sum_{i=1}^n(\hat{y}_i - \bar{y})^2}{\sum_{i=1}^n(y_i - \bar{y})^2}\\
+    &= \frac{\left[\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})\right]^2}{\sum_{i=1}^n(x_i-\bar{x})^2 \sum_{i=1}^n(y_i - \bar{y})^2}\\
+    &= \left[\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^n(x_i-\bar{x})^2}\sqrt{\sum_{i=1}^n(y_i - \bar{y})^2}}\right]^2\\
+    &= \mathrm{Cov}^2(X,Y).
+  \end{align*}
+  
+# Applied
+
+## Problem 8
+
+### Part a
+```{r, echo=TRUE}
+#Import libraries
+  library(ISLR)
+#Fit regression
+  lm.fit1 <- lm(mpg~horsepower, data=Auto)
+  summary(lm.fit1)
+```
+i. Since an F-statistics of 599.7 on 1 and 390 degrees of freedom has p-value of <2.2e-16, we can reject the null hypothesis of no relationship between the response and predictor and conclude there is a relationship. 
+
+ii. The model has an $R^2$ of 0.6059, so we can conclude there is a pretty strong relationship between the response and predictors. Recall that the $R^2$ is interpreted as the amount of variation in the response variable (in this case mpg) that is explained by the model. 
+
+iii. Since the coefficient on horsepower is negative, the relationship between the predictor and response variable is negative. That is, as horsepower increase, mpg will decrease, on average. 
+
+iv.
+```{r, echo=TRUE}
+predict(lm.fit1,data.frame(horsepower=98),interval="confidence")
+predict(lm.fit1,data.frame(horsepower=98),interval="prediction")
+``` 
+### Part b 
+```{r, echo=TRUE}
+#Plot regression with fit
+  plot(Auto$horsepower,Auto$mpg,ylab="MPG",xlab="Horsepower",main="Horsepower vs. MPG")
+  abline(lm.fit1)
+```
+
+### Part c
+```{r, echo=TRUE}
+#Plot regression diagnostics
+  par(mfrow=c(2,2))
+  plot(lm.fit1)
+```
+The plots of horsepower vs. mpg and the plot of residual vs fitted values both indicate there is some non-linearity in the data. The plot of standardized residuals vs leverage indicate there are some outliers and high leverage points. 
+
+## Problem 9
+
+### Part a 
+```{r, echo=TRUE}
+#Import library
+  library(ISLR)
+#Produce scatterplot matrix
+  pairs(Auto[1:7])
+```
+
+### Part b
+
+```{r, echo=TRUE}
+#Produce correlation matrix
+  cor(Auto[1:8]) 
+```
+
+### Part c
+```{r, echo=TRUE}
+#Convert origin variable into factor
+  Auto$origin <- factor(Auto$origin, levels=c(1,2,3),labels=c("American","European","Japanese"))
+#Fit multiple linear regression model  
+  lm.fit1 <- lm(mpg~.-name, data=Auto)
+  summary(lm.fit1)
+```
+i. Since an F-statistics of 224.5 on 8 and 383 degrees of freedom has p-value of <2.2e-16, we can reject the null hypothesis of no relationship between the response and predictor and conclude there is a relationship. 
+
+ii. The displacement, weight, year, originEuropean, and originaJapanese variables appear to have a statistically significant relationship with the response variable (mpg). The cylinders, horsepower, and accelearation variables do not have statistically significant relationships with the response variable. 
+
+iii. The coefficient on the year variable is highly statistically significant and positive, indicating cars have become more fuel efficient over time. In particular, cars gain 0.75 mpg per year, on average. 
+
+### Part d 
+```{r, echo=TRUE}
+#Plot regression diagnostics
+  par(mfrow=c(2,2))
+  plot(lm.fit1)
+```
+The regression diagnostic plots indicate the presence of some outliers, in particular observations 323, 327, and 326. The plots also indicate the presence of a high leverage point in observation 14. 
+
+### Part e
+```{r, echo=TRUE}
+#Fit multiple linear regression model with interaction terms 
+  lm.fit2 <- lm(mpg~.-name+cylinders:displacement+cylinders:horsepower, data=Auto)
+  summary(lm.fit2)
+```
+The interaction between cylinders and horsepower appears to be highly significant. 
+
+### Part f
+```{r, echo=TRUE}
+#Fit multiple linear regression model with transformation 
+  lm.fit3 <- lm(mpg~horsepower+I(horsepower^2), data=Auto)
+  summary(lm.fit3)
+```
+The coefficient on the square of the horsepower variable indicates nonlinearity in the relationship between horsepower and mpg. 
+
+## Problem 10
+
+### Part a
+```{r, echo=TRUE}
+#Import library
+  library(ISLR)
+#Fit multiple regression model
+  lm.fit1 <- lm(Sales~Price+Urban+US, data=Carseats)
+  summary(lm.fit1)
+```
+
+### Part b
+- Coefficient on price: for a unit increase in the price of the carseat, sales will decrease by $0.05*1000 = 50$, on average. 
+- Coefficient on Urban: being sold in an urban area decreases the carseat's sales by $0.02*1000 = 20$, on average.
+- Coefficient on US: being sold in the United States increases the carseat's sales by 1200, on average.
+
+### Part c
+The model in equation form: $$sales_i = \beta_0 + \beta_1 price_i + \beta_2 Urban_i + \beta_3 US_i + \epsilon_i.$$
+
+### Part d 
+We can reject the null hypothesis that $\beta_j=0$ for the intercept, price, and US. 
+
+### Part e
+```{r, echo=TRUE}
+#Fit smaller multiple regression model 
+  lm.fit2 <- lm(Sales~Price+US, data=Carseats)
+  summary(lm.fit2)
+```
+
+### Part f
+Both models fit the data about the same. They both have an $R^2$ of 0.2393, but the smaller model has a higher adjusted $R^2$. Moreover, the smaller model has a slighly higher $F$-statistic and a slightly smaller RSE. All these facts indicate the smaller model fits the data slightly better than the original model. 
+
+### Part g
+```{r, echo=TRUE}
+#Confidence intervals for coefficients
+  confint(lm.fit2)
+```
+
+### Part h
+```{r, echo=TRUE}
+#Plot regression diagnostics
+  par(mfrow=c(2,2))
+  plot(lm.fit2)
+```
+
+The regression diagnostic plots do not indicate the presence of any outliers (defined at $\pm 2$ standard errors). The plots do, however, indicate the presence of a couple high leverage points.
+
+## Problem 11
+
+### Part a
+```{r, echo=TRUE}
+set.seed(1)
+x <- rnorm(100)
+y <- 2*x+rnorm(100)
+#Fit simple linear regression of y onto x without intercept
+  lm.fit1 <- lm(y~x+0)
+  summary(lm.fit1)
+```
+According to the summary, we have $\hat{\beta}=1.9939$, $se(\hat{\beta})=0.1065$, a $t$-statistic of 18.73, and a $p$-value of $<2e-16$. These results allow us to reject the null hypothesis that $\beta=0$. 
+
+### Part b
+```{r, echo=TRUE}
+#Fit simple linear regression of x onto y without intercept
+  lm.fit2 <- lm(x~y+0)
+  summary(lm.fit2)
+```
+
+According to the summary, we have $\hat{\beta}=-0.2368$, $se(\hat{\beta})=0.02089$, a $t$-statistic of 18.73, and a $p$-value of $<2e-16$. These results allow us to reject the null hypothesis that $\beta=0$.
+
+### Part c
+We obtain the same $p$-value in both regression. This reflects the fact that the data come from the same line. We can write $Y=2X+\epsilon$ as $X=\frac{1}{2}(Y-\epsilon)$. 
+
+### Part d
+To show algebraicly, note that 
+  \begin{align*}
+    t &= \frac{\hat{\beta}}{se(\hat{\beta})}\\
+    &= \frac{\frac{\sum x_iy_i}{\sum x_i^2}}{\sqrt{\frac{\sum (y_i-x_i\hat{\beta})^2}{(n-1)\sum x_i^2}}}\\
+    &= \frac{\sqrt{n-1}\sum x_iy_i}{\sqrt{\sum x_i^2}\sqrt{\sum (y_i-x_i\hat{\beta})^2}}\\
+    &= \frac{\sqrt{n-1}\sum x_iy_i}{\sqrt{\sum x_i^2\sum y_i^2 - \sum x_i^2 \hat{\beta}\left(2\sum x_iy_i - \hat{\beta}\sum x_i^2\right)}}\\
+    &= \frac{\sqrt{n-1}\sum x_iy_i}{\sqrt{\sum x_i^2\sum y_i^2 - \sum x_iy_i \left(2\sum x_iy_i - \sum x_iy_i\right)}}\\
+    &= \frac{\sqrt{n-1}\sum x_iy_i}{\sqrt{\sum x_i^2\sum y_i^2 - \left(\sum x_iy_i\right)^2}}.
+  \end{align*}
+ 
+```{r, echo=TRUE}
+#Numerically verify above equation
+  n <- length(x)
+  t <- sqrt(n - 1)*(x %*% y)/sqrt(sum(x^2) * sum(y^2) - (x %*% y)^2)
+  as.numeric(t)
+```
+This is the exact same $t$-value as in the previous two regressions. 
+
+### Part e
+From the previous equation, we see the formula for the $t$-statistic is symmetric with respect to the ordering of $x$ and $y$. That is, we can swap the value of $x$ and $y$ in the above equation and the equation remains the same. Hence, for the $t$-statistic for $x~y$ is the same as the $t$-statistic for $y~x$. 
+
+### Part f
+```{r, echo=TRUE}
+#Fit simple linear regression of y onto x without intercept
+  lm.fit3 <- lm(y~x)
+  summary(lm.fit3)
+#Reverse variable order
+  lm.fit4 <- lm(x~y)
+  summary(lm.fit4)
+```
+
+The the previous two summaries, we see the $t$-statistic for testing that $\beta_1=0$ in the simple linear regression models is the same for both $y~x$ and $x~y$.
+
+## Problem 12
+
+### Part a
+The coefficient is the same if and only if $$\frac{\sum_{i=1}^nx_iy_i}{\sum_{j=1}^nx_j^2} = \frac{\sum_{i=1}^nx_iy_i}{\sum_{j=1}^ny_j^2}.$$ That is, we need $$\sum_{j=1}^ny_j^2=\sum_{j=1}^nx_j^2.$$
+
+### Part b
+```{r, echo=TRUE}
+#Example where coefficients for Y~X and X~Y are not the same
+  set.seed(1)
+  x <- rnorm(100)
+  y <- 2*x
+#Show sum of squares is different
+  sum(x^2)
+  sum(y^2)
+#Fit first model
+  lm.fit1 <- lm(y~x+0)
+  summary(lm.fit1)
+#Fit second model
+  lm.fit2 <- lm(x~y+0)
+  summary(lm.fit2)
+```
+The coefficients are clearly different.
+
+### Part c
+```{r, echo=TRUE}
+#Example where coefficients for Y~X and X~Y are the same
+  set.seed(1)
+  x <- rnorm(100)
+  y <- -sample(x,100) #Just re-order the values in x and multiply by -1
+#Show sum of squares is different
+  sum(x^2)
+  sum(y^2)
+#Fit first model
+  lm.fit3 <- lm(y~x+0)
+  summary(lm.fit3)
+#Fit second model
+  lm.fit4 <- lm(x~y+0)
+  summary(lm.fit4)
+```
+As we can see in the summaries above the coefficients are the same. 
+
+## Problem 13
+
+### Part a
+```{r, echo=TRUE}
+#Generate x
+  set.seed(1)
+  x <- rnorm(100)
+```
+
+### Part b
+```{r, echo=TRUE}
+#Generate eps
+  eps <- rnorm(100, mean=0,sd=sqrt(0.25))
+```
+
+### Part c
+```{r, echo=TRUE}
+#Generate y
+  y <- -1 + (0.5*x) + eps
+```
+The vector y has length `r length(y)`. This model has $\beta_0=-1$ and $\beta_1=0.5$. 
+
+### Part d
+```{r, echo=TRUE}
+#Plot x vs y
+  plot(x,y,xlab="x",ylab="y",main="X vs. Y")
+```
+Appears to be a linear relationship between x and y. 
+
+### Part e
+```{r, echo=TRUE}
+#Fit the least squares linear model
+  lm.fit1 <- lm(y~x)
+  summary(lm.fit1)
+```
+From the model above, we have $\hat{\beta_0}=1.01885$ and $\hat{\beta_1}=0.49947$. These estimates are very close to the true $\beta_0$ and $\beta_1$. 
+
+### Part f
+```{r, echo=TRUE}
+#Plot x vs y with regression and population lines
+  plot(x,y,xlab="x",ylab="y",main="X vs. Y with Regression and Population Lines")
+  abline(lm.fit1,col="blue")
+  abline(-1,0.5, col="red")
+  legend("bottomright",c("Regression","Population"), col=c("blue","red"), lty=c(1,1))
+```
+
+### Part g
+```{r, echo=TRUE}
+#Fit regression with quadratic term
+  lm.fit2 <- lm(y~x+I(x^2))
+  summary(lm.fit2)
+```
+There is little evidence the addition of the quadratic term improves the fit of the model. The adjusted $R^2$ barely increases, and the coefficient on the quadratic term is not statistically significant. 
+
+### Part h
+```{r, echo=TRUE}
+#Generate data with less noise 
+  eps2 <- rnorm(100, mean=0,sd=sqrt(0.05))
+  y2 <- -1 + (0.5*x) + eps2
+#Fit the least squares linear model
+  lm.fit3 <- lm(y2~x)
+  summary(lm.fit3)
+#Plot x vs y with regression and population lines
+  plot(x,y2,xlab="x",ylab="y",main="Model with Less Noise")
+  abline(lm.fit3,col="blue")
+  abline(-1,0.5, col="red")
+  legend("bottomright",c("Regression","Population"), col=c("blue","red"), lty=c(1,1))
+```
+The regression line and coefficients are closer to the population values than in the original model.
+
+### Part i
+```{r, echo=TRUE}
+#Generate data with more noise 
+  eps3 <- rnorm(100, mean=0)
+  y3 <- -1 + (0.5*x) + eps3
+#Fit the least squares linear model
+  lm.fit4 <- lm(y3~x)
+  summary(lm.fit4)
+#Plot x vs y with regression and population lines
+  plot(x,y3,xlab="x",ylab="y",main="Model with More Noise")
+  abline(lm.fit4,col="blue")
+  abline(-1,0.5, col="red")
+  legend("bottomright",c("Regression","Population"), col=c("blue","red"), lty=c(1,1))
+```
+The regression line and coefficients are less close to the population values than in the original model.
+
+### Part j
+```{r, echo=TRUE}
+#Coefficient confidence intervals for original model
+  confint(lm.fit1)
+#Coefficient confidence intervals for model with less noise
+  confint(lm.fit3)
+#Coefficient confidence intervals for model with more noise
+  confint(lm.fit4)
+```
+The confidence intervals for the coefficients in the noisier data are larger than the confidence intervals for the coefficients in the original data. Likewise, the confidence intervals for the coefficients in the original data are larger than the confidence intervals for the coefficients in the less noisy data. 
+
+## Problem 14
+
+### Part a 
+```{r, echo=TRUE}
+#Generate the data 
+  set.seed(1)
+  x1 <- runif(100)
+  x2 <- 0.5*x1 + rnorm(100)/10
+  y <- 2 + 2*x1 + 0.3*x2 + rnorm(100)
+```
+The model has the form 
+  \begin{align*}
+    y_i &= \beta_0 + \beta_1 x_{1,i} + \beta_2 x_{2,i} + \epsilon_i\\
+    &= 2 + 2 x_{1,i} + 0.3 x_{2,i} + \epsilon_i.
+  \end{align*}
+Hence, $\beta_0=2$, $\beta_1=2$, and $\beta_2=0.3$. 
+
+### Part b
+```{r, echo=TRUE}
+#Examine correlation
+  cor(x1,x2)
+  plot(x1,x2,xlab="x1",ylab="x2",main="x1 vs. x2")
+  lm.fit1 <- lm(y~x1+x2)
+  summary(lm.fit1)
+```
+
+### Part c
+```{r, echo=TRUE}
+#Fit linear model
+  lm.fit1 <- lm(y~x1+x2)
+  summary(lm.fit1)
+```
+From the regression, we have $\hat{\beta_0}=2.1305$, $\hat{\beta_1}=1.4396$, and $\hat{\beta_2}=1.0097$. These results are pretty far from the true values of $\hat{\beta_0}$, $\hat{\beta_1}$, and $\hat{\beta_2}$. We can only reject the null that $\beta_1=0$ at the 10\% significance level. We cannot rejec the null that $\beta_2=0$. 
+
+### Part d
+```{r, echo=TRUE}
+#Simple linear regression using just x1
+  lm.fit2 <- lm(y~x1)
+  summary(lm.fit2)
+```
+In the model using just x1 as a predictor, we can reject the null that $\beta_1=0$ with a high degree of confidence ($p<0.001$).
+
+### Part e
+```{r, echo=TRUE}
+#Simple linear regression using just x2
+  lm.fit3 <- lm(y~x2)
+  summary(lm.fit3)
+```
+In the model using just x2 as a predictor, we can reject the null that $\beta_2=0$ with a high degree of confidence ($p<0.001$).
+
+### Part f
+The results of the previous three regressions do not contradict each other. Without the presence of other predictors, both $\beta_1$ and $\beta_2$ are statistically significant. In the presence of other predictors, $\beta_2$ is no longer statistically significant.
+
+### Part g
+```{r, echo=TRUE}
+x1 <- c(x1, 0.1)
+x2 <- c(x2, 0.8)
+y <- c(y, 6)
+par(mfrow=c(2,2))
+# regression with both x1 and x2
+  lm.fit4 <- lm(y~x1+x2)
+  summary(lm.fit4)
+  plot(lm.fit4)
+# regression with x1 only
+  lm.fit5 <- lm(y~x2)
+  summary(lm.fit5)
+  plot(lm.fit5)
+# regression with x2 only
+  lm.fit6 <- lm(y~x1)
+  summary(lm.fit6)
+  plot(lm.fit6)
+```
+The new point is an outlier for all three models (though not quite as bad in the model with just x2), and it is an outlier in the model with just x1 and the model with just x2.
+
+- In the model with x1 and x2, the residuals vs leverage plot shows the new observation as being high-leverage.
+
+- In the model with just x1, the new point has high leverage but does not cause issues because it is not an outlier for x1 or y.
+
+- In the model with just x2, the new point has high leverage but does not cause major issues because it falls close to the regression line.
+
+## Problem 15
+
+### Part a
+```{r, echo=TRUE}
+#Import the data
+  library(MASS)
+  names(Boston)
+#Fit the univariate models
+  fit1 <- lm(crim~zn, data=Boston)
+  summary(fit1)
+  fit2 <- lm(crim~indus, data=Boston)
+  summary(fit2)
+  fit3 <- lm(crim~chas, data=Boston)
+  summary(fit3)
+  fit4 <- lm(crim~nox, data=Boston)
+  summary(fit4)
+  fit5 <- lm(crim~rm, data=Boston)
+  summary(fit5)
+  fit6 <- lm(crim~age, data=Boston)
+  summary(fit6)
+  fit7 <- lm(crim~dis, data=Boston)
+  summary(fit7)
+  fit8 <- lm(crim~rad, data=Boston)
+  summary(fit8)
+  fit9 <- lm(crim~tax, data=Boston)
+  summary(fit9)
+  fit10 <- lm(crim~ptratio, data=Boston)
+  summary(fit10)
+  fit11 <- lm(crim~black, data=Boston)
+  summary(fit11)
+  fit12 <- lm(crim~lstat, data=Boston)
+  summary(fit12)
+  fit13 <- lm(crim~medv, data=Boston)
+  summary(fit13)
+```
+Each predictor has a statistically significant association with the response except for the chas variable. 
+
+### Part b
+```{r, echo=TRUE}
+#Fit multiple regression model
+  fit14 <- lm(crim~., data=Boston)
+  summary(fit14)
+```
+In the multiple regression model, we can rejec the null for zn, nox, dis, rad, black, lstat, and medv.
+
+### Part c
+In the multople regression model, fewer predictors have a significant association with the response. 
+
+### Part d
+```{r, echo-TRUE}
+#Examine non-linearities
+# skip chas because it's a factor variable
+  summary(lm(crim~poly(zn,3), data=Boston))      # 1,2
+  summary(lm(crim~poly(indus,3), data=Boston))   # 1,2,3
+  summary(lm(crim~poly(nox,3), data=Boston))     # 1,2,3
+  summary(lm(crim~poly(rm,3), data=Boston))      # 1,2
+  summary(lm(crim~poly(age,3), data=Boston))     # 1,2,3
+  summary(lm(crim~poly(dis,3), data=Boston))     # 1,2,3
+  summary(lm(crim~poly(rad,3), data=Boston))     # 1,2
+  summary(lm(crim~poly(tax,3), data=Boston))     # 1,2
+  summary(lm(crim~poly(ptratio,3), data=Boston)) # 1,2,3
+  summary(lm(crim~poly(black,3), data=Boston))   # 1
+  summary(lm(crim~poly(lstat,3), data=Boston))   # 1,2
+  summary(lm(crim~poly(medv,3), data=Boston))    # 1,2,3
+```
+Yes, there is evidence for a non-linear relationship between the predictor and response for several variables in the dataset. 
+
+
+
+
