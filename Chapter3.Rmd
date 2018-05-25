@@ -1,10 +1,18 @@
 ---
 title: "Chapter 3 Exercises"
-subtitle: "From *ISLR*"
+subtitle: "From *An Introduction to Statistical Learning with Applications in R*"
 author: "Jacob Zeiher"
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
   html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+    theme: spacelab
+    highlight: haddock
+    keep_md: yes
+  pdf_document:
     toc: true
     toc_depth: 2
 ---
@@ -20,7 +28,7 @@ The $p$ values given in Table 3.4 refer to the highest level of confidence with 
 ## Problem 2
 The KNN classifier is a classification method while the KNN regression is a regression method. The KNN classifier makes a classification based on the classification of the K closest data points. Similarly, the KNN regression assigns a predicted value based on the average value of the K nearest data points. Hence, the outcome variable for the KNN classifier is categorical while the outcome variable for the KNN regression is quantitative. 
 
-## Problem 3
+## Problem 3 {.tabset}
 
 ### Part a
 We have $$\hat{Y} = \hat{\beta_0} + \hat{\beta_1}GPA + \hat{\beta_2}IQ + \hat{\beta_3}FEMALE + \hat{\beta_4}\left(GPA \times IQ\right) + \hat{\beta_5}\left(GPA \times FEMALE\right).$$ For males this equation becomes $$\hat{Y} = \hat{\beta_0} + \hat{\beta_1}GPA + \hat{\beta_2}IQ + \hat{\beta_4}\left(GPA \times IQ\right) = 50+20GPA+0.07IQ+0.01\left(GPA \times IQ\right),$$ 
@@ -32,7 +40,7 @@ Using the previous equation, we would have $$\hat{Y}=85+10(4)+0.07(110)+0.01(110
 ### Part c
 False. To determine statistical significance, we need to compare $t = \frac{\hat{\beta}}{se\hat{\beta}}$ to a t-distribution with $n-2$ degrees of freedom. We cannot determine statistical significance based solely on the *magnitude* of the coefficient. We must also take into consideration its estimated standard error.
 
-## Problem 4
+## Problem 4 {.tabset}
 
 ### Part a
 Without knowing more details about the training data, it is difficult to know which training RSS is lower between linear or cubic. However, as the true relationship between X and Y is linear, we may expect the least squares line to be close to the true regression line, and consequently the RSS for the linear regression may be lower than for the cubic regression.
@@ -89,7 +97,7 @@ Then (5) becomes
   
 # Applied
 
-## Problem 8
+## Problem 8 {.tabset}
 
 ### Part a
 ```{r, echo=TRUE}
@@ -125,7 +133,7 @@ predict(lm.fit1,data.frame(horsepower=98),interval="prediction")
 ```
 The plots of horsepower vs. mpg and the plot of residual vs fitted values both indicate there is some non-linearity in the data. The plot of standardized residuals vs leverage indicate there are some outliers and high leverage points. 
 
-## Problem 9
+## Problem 9 {.tabset}
 
 ### Part a 
 ```{r, echo=TRUE}
@@ -180,7 +188,7 @@ The interaction between cylinders and horsepower appears to be highly significan
 ```
 The coefficient on the square of the horsepower variable indicates nonlinearity in the relationship between horsepower and mpg. 
 
-## Problem 10
+## Problem 10 {.tabset}
 
 ### Part a
 ```{r, echo=TRUE}
@@ -227,7 +235,7 @@ Both models fit the data about the same. They both have an $R^2$ of 0.2393, but 
 
 The regression diagnostic plots do not indicate the presence of any outliers (defined at $\pm 2$ standard errors). The plots do, however, indicate the presence of a couple high leverage points.
 
-## Problem 11
+## Problem 11 {.tabset}
 
 ### Part a
 ```{r, echo=TRUE}
@@ -286,7 +294,7 @@ From the previous equation, we see the formula for the $t$-statistic is symmetri
 
 The the previous two summaries, we see the $t$-statistic for testing that $\beta_1=0$ in the simple linear regression models is the same for both $y~x$ and $x~y$.
 
-## Problem 12
+## Problem 12 {.tabset}
 
 ### Part a
 The coefficient is the same if and only if $$\frac{\sum_{i=1}^nx_iy_i}{\sum_{j=1}^nx_j^2} = \frac{\sum_{i=1}^nx_iy_i}{\sum_{j=1}^ny_j^2}.$$ That is, we need $$\sum_{j=1}^ny_j^2=\sum_{j=1}^nx_j^2.$$
@@ -327,7 +335,7 @@ The coefficients are clearly different.
 ```
 As we can see in the summaries above the coefficients are the same. 
 
-## Problem 13
+## Problem 13 {.tabset}
 
 ### Part a
 ```{r, echo=TRUE}
@@ -424,7 +432,7 @@ The regression line and coefficients are less close to the population values tha
 ```
 The confidence intervals for the coefficients in the noisier data are larger than the confidence intervals for the coefficients in the original data. Likewise, the confidence intervals for the coefficients in the original data are larger than the confidence intervals for the coefficients in the less noisy data. 
 
-## Problem 14
+## Problem 14 {.tabset}
 
 ### Part a 
 ```{r, echo=TRUE}
@@ -504,7 +512,7 @@ The new point is an outlier for all three models (though not quite as bad in the
 
 - In the model with just x2, the new point has high leverage but does not cause major issues because it falls close to the regression line.
 
-## Problem 15
+## Problem 15 {.tabset}
 
 ### Part a
 ```{r, echo=TRUE}
